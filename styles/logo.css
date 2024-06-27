@@ -1,0 +1,40 @@
+/* Define the container style */
+.logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Define the basic style for letters */
+  .letter {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  /* Define the animation for the letter M */
+  @keyframes bounceM {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .animate-m {
+    animation: bounceM 1s infinite;
+  }
+  
+  /* Define the animation for the letter O */
+  @keyframes bounceO {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+  
+  .animate-o {
+    animation: bounceO 1s infinite;
+  }
+  
