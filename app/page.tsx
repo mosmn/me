@@ -4,6 +4,7 @@ import  {ModeToggle} from "@/components/theme-toggle";
 import {Logo} from "@/components/logo";
 
 export default function Home() {
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-4xl font-bold text-center">
@@ -16,6 +17,7 @@ export default function Home() {
       <Button >Read the Blog</Button>
       <ModeToggle />
       <Logo state="static"/>
+
     </main>
   );
 }
