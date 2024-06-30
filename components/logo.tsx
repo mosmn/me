@@ -8,13 +8,13 @@ export function Logo({ state = "dynamic", size = 24 }) {
   return (
     <div className={cn("logo-container", { "dynamic-state": state === "dynamic" })}>
       <span
-        className={cn("letter", "letter-m", { "animate-m": state === "dynamic" })}
+        className={cn("letter", "letter-m font-bold", { "animate-m": state === "dynamic" })}
         style={sizeStyle}
       >
         M
       </span>
       <span
-        className={cn("letter", "text-primary", { "animate-o": state === "dynamic" })}
+        className={cn("letter", "text-primary font-bold", { "animate-o": state === "dynamic" })}
         style={sizeStyle}
       >
         O
