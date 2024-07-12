@@ -4,13 +4,13 @@ import plugins from './plate-ui/plugins';
 import {Displayer} from './displayer';
 import { Editor } from './plate-ui/editor';
 
-export function ContentDisplayer({ content }: { content: any}) {
+export function ContentDisplayer({ content, style }: { content: string, style?: any }) {
   const parsedContent = JSON.parse(content);
   return (
-      <Plate plugins={plugins} initialValue={parsedContent}>
+      <Plate plugins={plugins} initialValue={parsedContent} readOnly>
         {/* <Displayer /> */}
         {/* <PlateContent readOnly /> */}
-        <Editor readOnly />
+        <Editor style={style} />
       </Plate>
   );
 }
