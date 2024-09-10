@@ -14,9 +14,9 @@ import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-b
 import { Button } from "@/components/ui/button";
 import plugins from "@/components/plate-ui/plugins";
 import { createComment, addReply } from "@/lib/data";
-import { LoginForm } from './login';
-import { SignupForm } from './signup';
-import { useAuth } from '@/app/context/AuthProvider';
+import { LoginForm } from "./login";
+import { SignupForm } from "./signup";
+import { useAuth } from "@/app/context/AuthProvider";
 
 const initialValue = [
   {
@@ -30,24 +30,30 @@ const initialValue = [
       { text: "<textarea>", code: true },
       { text: "!" },
     ],
-  }];
-  
+  },
+];
 
-export function CommentEditor({onNewComment, postId = "defaultPostId", replyTo = null }: { postId: string; replyTo: any; onNewComment: () => void }) {
+export function CommentEditor({
+  onNewComment,
+  postId = "defaultPostId",
+  replyTo = null,
+}: {
+  postId: string;
+  replyTo: any;
+  onNewComment: () => void;
+}) {
   const [value, setValue] = useState("");
   const [loginDialog, setLoginDialog] = useState(false);
   const [signupDialog, setSignupDialog] = useState(false);
   const { user, login, logout } = useAuth();
-  
+
   useEffect(() => {
     if (value.length === 0) {
       setValue(JSON.stringify(initialValue, null, 2));
     } else {
-      setValue(JSON.stringify(value, null, 2));
+      setValue((v) => JSON.stringify(v, null, 2));
     }
-
-
-  }, []);
+  }, [value]);
 
   const handleOnChange = (value: any) => {
     const content = JSON.stringify(value, null, 2);
@@ -62,7 +68,7 @@ export function CommentEditor({onNewComment, postId = "defaultPostId", replyTo =
       } else {
         data = await createComment(postId, value, replyTo);
       }
-  
+
       if (data) {
         setValue("");
         onNewComment();
@@ -76,7 +82,11 @@ export function CommentEditor({onNewComment, postId = "defaultPostId", replyTo =
     <DndProvider backend={HTML5Backend}>
       <CommentsProvider users={{}} myUserId="1">
         <div className="flex flex-col items-center justify-between mb-4 border border-gray-200 rounded-lg">
-          <Plate plugins={plugins} onChange={handleOnChange} initialValue={initialValue}>
+          <Plate
+            plugins={plugins}
+            onChange={handleOnChange}
+            initialValue={initialValue}
+          >
             <FixedToolbar>
               <FixedToolbarButtons />
             </FixedToolbar>
@@ -95,20 +105,30 @@ export function CommentEditor({onNewComment, postId = "defaultPostId", replyTo =
             <Button
               onClick={() => {
                 logout();
-              }
-              }
+              }}
               className="mt-1 float-right"
             >
               Logout
             </Button>
           </div>
         ) : (
-          <Button onClick={() => setLoginDialog(true)} className="mt-1 float-right">
+          <Button
+            onClick={() => setLoginDialog(true)}
+            className="mt-1 float-right"
+          >
             Log in
           </Button>
         )}
-        <LoginForm loginDialog={loginDialog} setLoginDialog={setLoginDialog} setSignupDialog={setSignupDialog} />
-        <SignupForm signupDialog={signupDialog} setSignupDialog={setSignupDialog} setLoginDialog={setLoginDialog} />
+        <LoginForm
+          loginDialog={loginDialog}
+          setLoginDialog={setLoginDialog}
+          setSignupDialog={setSignupDialog}
+        />
+        <SignupForm
+          signupDialog={signupDialog}
+          setSignupDialog={setSignupDialog}
+          setLoginDialog={setLoginDialog}
+        />
       </CommentsProvider>
     </DndProvider>
   );

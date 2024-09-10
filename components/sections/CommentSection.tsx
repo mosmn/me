@@ -132,18 +132,17 @@
 //   );
 // }
 
-
 // export default CommentSection;
 
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { CommentEditor } from "../comment-editor";
 import { TooltipProvider } from "@/components/plate-ui/tooltip";
-import { ContentDisplayer } from '@/components/content-displayer';
+import { ContentDisplayer } from "@/components/content-displayer";
 import { getComments, getReplies } from "@/lib/data";
-import { format } from 'date-fns';
-import { useAuth } from '@/app/context/AuthProvider';
+import { format } from "date-fns";
+import { useAuth } from "@/app/context/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { ThumbsUp, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -212,9 +211,17 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
       ) : (
         <div className="text-lg font-medium">Please login to comment</div>
       )}
-      <div >
-        <TooltipProvider disableHoverableContent delayDuration={500} skipDelayDuration={0}>
-          <CommentEditor postId={postId} onNewComment={handleNewComment} replyTo={null} />
+      <div>
+        <TooltipProvider
+          disableHoverableContent
+          delayDuration={500}
+          skipDelayDuration={0}
+        >
+          <CommentEditor
+            postId={postId}
+            onNewComment={handleNewComment}
+            replyTo={null}
+          />
         </TooltipProvider>
       </div>
       <div className="mt-20 space-y-8">
@@ -223,16 +230,27 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
             <p>Loading comments...</p>
           </div>
         ) : (
-          comments.filter(comment => !comment.replyTo).map(comment => (
-            <CommentThread key={comment._id} comment={comment} postId={postId} onNewComment={handleNewComment} />
-          ))
+          comments
+            .filter((comment) => !comment.replyTo)
+            .map((comment) => (
+              <CommentThread
+                key={comment._id}
+                comment={comment}
+                postId={postId}
+                onNewComment={handleNewComment}
+              />
+            ))
         )}
       </div>
     </div>
   );
 };
 
-const CommentThread: React.FC<CommentThreadProps> = ({ comment, postId, onNewComment }) => {
+const CommentThread: React.FC<CommentThreadProps> = ({
+  comment,
+  postId,
+  onNewComment,
+}) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const [showReplyEditor, setShowReplyEditor] = useState<boolean>(false);
   const [replies, setReplies] = useState<Comment[]>([]);
@@ -244,22 +262,25 @@ const CommentThread: React.FC<CommentThreadProps> = ({ comment, postId, onNewCom
   };
 
   useEffect(() => {
-      const fetchReplies = async () => {
-        const replies = await getReplies(postId, comment._id);
-        setReplies(replies);
-        console.log("Fetched replies:", replies);
-      };
+    const fetchReplies = async () => {
+      const replies = await getReplies(postId, comment._id);
+      setReplies(replies);
+      console.log("Fetched replies:", replies);
+    };
 
-      if(comment._id)
-        fetchReplies();
-    }, []);
+    if (comment._id) fetchReplies();
+  }, []);
 
   return (
     <div className="border-l-2 border-gray-500 pl-4">
       <Comment comment={comment} onReply={toggleReplyEditor} />
       {showReplyEditor && (
         <div className="mt-4 ml-8">
-          <TooltipProvider disableHoverableContent delayDuration={500} skipDelayDuration={0}>
+          <TooltipProvider
+            disableHoverableContent
+            delayDuration={500}
+            skipDelayDuration={0}
+          >
             <CommentEditor
               postId={postId}
               onNewComment={() => {
@@ -279,13 +300,23 @@ const CommentThread: React.FC<CommentThreadProps> = ({ comment, postId, onNewCom
             onClick={toggleExpanded}
             className="flex items-center text-sm text-gray-500 hover:text-gray-700"
           >
-            {isExpanded ? <ChevronUp className="mr-1" /> : <ChevronDown className="mr-1" />}
-            {isExpanded ? "Hide" : "Show"} {replies.length} {replies.length === 1 ? "reply" : "replies"}
+            {isExpanded ? (
+              <ChevronUp className="mr-1" />
+            ) : (
+              <ChevronDown className="mr-1" />
+            )}
+            {isExpanded ? "Hide" : "Show"} {replies.length}{" "}
+            {replies.length === 1 ? "reply" : "replies"}
           </Button>
           {isExpanded && (
             <div className="space-y-4 mt-4">
-              {replies.map(reply => (
-                <CommentThread key={reply._id} comment={reply} postId={postId} onNewComment={onNewComment} />
+              {replies.map((reply) => (
+                <CommentThread
+                  key={reply._id}
+                  comment={reply}
+                  postId={postId}
+                  onNewComment={onNewComment}
+                />
               ))}
             </div>
           )}
@@ -309,17 +340,28 @@ const Comment: React.FC<CommentProps> = ({ comment, onReply }) => {
       <div className="flex-grow">
         <div className="flex items-center space-x-2">
           <span className="font-medium">{comment.author.username}</span>
-          <span className="text-sm text-gray-500">{format(new Date(comment.createdAt), 'PPp')}</span>
+          <span className="text-sm text-gray-500">
+            {format(new Date(comment.createdAt), "PPp")}
+          </span>
         </div>
         <div className="mt-2">
           <ContentDisplayer content={comment.content} />
         </div>
         <div className="mt-2 flex items-center space-x-4">
-          <Button variant="ghost" size="sm" className="flex items-center text-gray-500 hover:text-gray-700">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center text-gray-500 hover:text-gray-700"
+          >
             <ThumbsUp className="mr-1" size={16} />
             <span>{comment.likesCount}</span>
           </Button>
-          <Button variant="ghost" size="sm" onClick={onReply} className="flex items-center text-gray-500 hover:text-gray-700">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onReply}
+            className="flex items-center text-gray-500 hover:text-gray-700"
+          >
             <MessageCircle className="mr-1" size={16} />
             <span>Reply</span>
           </Button>
