@@ -1,3 +1,4 @@
+import { AuthProvider } from "./context/AuthProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css"
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} overflow-x-hidden`}>
+        <AuthProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -39,6 +41,7 @@ export default function RootLayout({
              <p className="text-sm">&copy; 2024 mosmn. All Rights Reserved.</p>
           </footer>
         </ThemeProvider>
+        </AuthProvider>
         </body>
     </html>
   );

@@ -14,19 +14,17 @@ import {
     DialogDescription, } from "./ui/dialog";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {  register } from "@/lib/auth";
+import { useAuth } from '@/app/context/AuthProvider';
 
 export function SignupForm({ signupDialog, setSignupDialog, setLoginDialog }: { signupDialog: boolean, setSignupDialog: (show: boolean) => void , setLoginDialog: (show: boolean) => void }) {
+    const { user, login, register } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const username = (e.currentTarget as any).username.value;
         const email = (e.currentTarget as any).email.value;
         const password = (e.currentTarget as any).password.value;
-        const data = await register({ username, email, password, type: "user" });
-        if (data) {
-            setSignupDialog(false);
-        }
+        await register(username, email, password, "user");
     };
     
   return (

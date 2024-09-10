@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 
 const Page = async () => {
     const posts = await getPublishedPosts();
-
+    console.log("Posts", posts);
     return (
         <div className="container mt-24 px-4 py-12 md:px-6 lg:px-8">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

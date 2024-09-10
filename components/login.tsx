@@ -14,20 +14,20 @@ import {
     DialogDescription, } from "./ui/dialog";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { login } from "@/lib/auth";
+import { useAuth } from '@/app/context/AuthProvider';
 
 export function LoginForm({ loginDialog, setLoginDialog, setSignupDialog }: { loginDialog: boolean, setLoginDialog: (show: boolean) => void , setSignupDialog: (show: boolean) => void }) {
+    const { user, login } = useAuth();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const username = (event.currentTarget as any).username.value;
         const password = (event.currentTarget as any).password.value;
-        const data = await login({ username, password });
-        if (data) {
+        await login(username, password);
+        if (user?.username === username) {
             setLoginDialog(false);
         }
     }
-
   return (
     <Dialog open={loginDialog} onOpenChange={setLoginDialog}>
         <DialogOverlay />
