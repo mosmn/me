@@ -5,12 +5,11 @@ import { CommercialProjects } from "@/components/sections/CommercialProjects";
 import { BestWritings } from "@/components/sections/BestWritings";
 
 export default function Home() {
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <HeroSection />
-      <CommercialProjects />
-      <BestWritings />
+      {/* <CommercialProjects />
+      <BestWritings /> */}
       {/*
       <TechStack />
       <CommercialProjects />
